@@ -1,10 +1,11 @@
 import re
+import datetime
 # input file
-name = ["/translate_utils.c", "/translate.c", "/assembler.c", "/tables.c"]
-a = name[3]
-file = open("/home/st/p1.1_fubzh_ouyangkzh/part1"+a, mode='r', encoding='utf-8')
+# name = ["/emulator.c", "/execute.c", "/execute_utils.c", "/logs.c", "/mem.c"]
+# a = name[4]
+file = open("E:/p1.2_fubzh_ouyangkzh/part2"+a, mode='r', encoding='utf-8')
 # output file
-nfile = open("/home/st/Code/Python/submit"+a, mode='w')
+nfile = open("./addcomments"+a, mode='w')
 p = file.readline()
 search_comment_end = 0
 while p:
@@ -27,10 +28,17 @@ while p:
     if match:
         flag = 1
         nfile.write(p)
+        # search the end of the comment format /* */
         search_comment_end = 1
     match = re.search('(\*/)+', p)
     if match:
         search_comment_end = 0
+    
+    # seearch for comment format //
+    match = re.search('(//)+', p)
+    if match:
+        flag = 1
+        nfile.write(p)
 
     # 'if/else if' condition
     match = re.search('if', p)
@@ -63,7 +71,7 @@ while p:
         flag = 1
     # does not match
     if not flag:
-        # nfile.write(p.strip('\n') + f'  /* It is implemented on Mar 13th. */\n')
+        # nfile.write(p.strip('\n') + f'  /* It is implemented on {datetime.date.today()}. */\n')
         nfile.write(p)
     p = file.readline()
 print("Finished")
